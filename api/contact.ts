@@ -1,18 +1,40 @@
-import { insertContactMessageSchema } from '../shared/schema';
+import { z } from 'zod';
+
+/**
+ * Local Zod schema to avoid heavy server-only imports in the serverless function.
+ * It mirrors the fields used on the client.
+ */
+const insertContactMessageSchema = z.object({
+  name: z.string().min(2, 'Jméno musí mít alespoň 2 znaky'),
+  email: z.string().email('Zadejte platnou e-mailovou adresu'),
+  phone: z.string().optional(),
+  message: z.string().min(10, 'Zpráva musí mít alespoň 10 znaků'),
+});
 
 export default async function handler(req: any, res: any) {
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST');
-    return res.status(405).json({ success: false, message: 'Method Not Allowed' });
-  }
   try {
-    const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+    if (req.method !== 'POST') {
+      res.setHeader('Allow', 'POST');
+      return res.status(405).json({ success: false, message: 'Method Not Allowed' });
+    }
+
+    // Support both parsed and raw JSON bodies
+    let body: any = req.body;
+    if (typeof body === 'string') {
+      try {
+        body = JSON.parse(body);
+      } catch (_e) {
+        body = null;
+      }
+    }
+    if (!body || typeof body !== 'object') {
+      body = {};
+    }
+
     const validated = insertContactMessageSchema.parse(body);
 
-    // In this serverless version we don't persist; we just acknowledge receipt.
     const now = new Date().toISOString();
     const message = {
-      id: undefined,
       ...validated,
       createdAt: now,
     };
@@ -27,13 +49,14 @@ export default async function handler(req: any, res: any) {
       return res.status(400).json({
         success: false,
         message: 'Neplatná data formuláře',
-        errors: error,
+        errors: error?.issues ?? error,
       });
     }
     console.error('Error in /api/contact:', error);
     return res.status(500).json({
       success: false,
-      message: 'Nepodařilo se odeslat zprávu. Zkuste to prosím znovu.',
+      message: 'Internal Server Error',
+      error: error?.message || String(error),
     });
   }
 }
