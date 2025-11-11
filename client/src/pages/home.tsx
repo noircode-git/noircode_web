@@ -231,11 +231,7 @@ export default function Home() {
     onSuccess: () => {
       setSubmitSuccess(true);
       form.reset();
-      toast({
-        title: "Zpráva odeslána!",
-        description: "Děkujeme za váš zájem. Ozveme se vám do 24 hodin.",
-      });
-      
+
       setTimeout(() => {
         setSubmitSuccess(false);
       }, 5000);
