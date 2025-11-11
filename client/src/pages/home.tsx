@@ -184,16 +184,21 @@ export default function Home() {
     },
   });
 
+  // EmailJS config with Vite env vars (fallback to current hardcoded values)
+  const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_g5zdpzo";
+  const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "template_7kk8zqn";
+  const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "o8xwIazZdCrFsnJMb";
+
   const contactMutation = useMutation({
     mutationFn: async (data: InsertContactMessage) => {
-      // First save to backend
+      // First save to backend (note: on Vercel static deploy this may be rewritten to index.html)
       const result = await apiRequest('POST', '/api/contact', data);
 
       // Then send email via EmailJS from client side
       const emailData = {
-        service_id: "service_g5zdpzo",
-        template_id: "template_7kk8zqn",
-        user_id: "o8xwIazZdCrFsnJMb",
+        service_id: EMAILJS_SERVICE_ID,
+        template_id: EMAILJS_TEMPLATE_ID,
+        user_id: EMAILJS_PUBLIC_KEY,
         template_params: {
           from_name: data.name,
           from_email: data.email,
@@ -202,16 +207,23 @@ export default function Home() {
         }
       };
 
-      const emailResponse = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(emailData),
-      });
+      try {
+        const emailResponse = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(emailData),
+          mode: 'cors',
+        });
 
-      if (!emailResponse.ok) {
-        console.warn('Email failed to send, but message was saved');
+        const bodyText = await emailResponse.text().catch(() => '');
+
+        if (!emailResponse.ok) {
+          console.warn(`EmailJS send failed. status=${emailResponse.status}, body=${bodyText}. If status is 403/405, add ${window.location.origin} to EmailJS Allowed Origins and verify your public key/service/template.`);
+        }
+      } catch (err: any) {
+        console.error('EmailJS network/CORS error:', err?.message || err);
       }
 
       return result;
