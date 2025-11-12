@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Portfolio, ArrowRight } from "lucide-react";
+import { FolderOpen, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 
@@ -23,7 +23,7 @@ export default function Reference() {
               </span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-8">
-              Ukázky našich nejnovějších projektů a realizovaných řešení. 
+              Ukázky našich nejnovějších projektů a realizovaných řešení.
               Každý projekt je příležitostí ukázat naši odbornost a kreativitu.
             </p>
             <Button
@@ -45,8 +45,8 @@ export default function Reference() {
           </h2>
           <div className="max-w-3xl mx-auto">
             <p className="text-lg text-muted-foreground mb-8">
-              Specializujeme se na vývoj webových stránek, e-commerce řešení, 
-              firemních aplikací a automatizačních systémů. Každý projekt 
+              Specializujeme se na vývoj webových stránek, e-commerce řešení,
+              firemních aplikací a automatizačních systémů. Každý projekt
               je navržen s důrazem na uživatelskou přívětivost, výkon a SEO.
             </p>
           </div>
