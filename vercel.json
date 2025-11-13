@@ -3,6 +3,6 @@
   "version": 2,
   "buildCommand": "npm run vercel-build",
   "rewrites": [
-    { "source": "/((?!api/).*)", "destination": "/dist/index.html" }
+    { "source": "/.*", "destination": "/dist/index.html" }
   ]
 }
