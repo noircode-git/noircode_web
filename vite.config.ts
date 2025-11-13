@@ -4,7 +4,6 @@ import path from "path";
 
 export default defineConfig({
   plugins: [react()],
-  root: "./client",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./client/src"),
@@ -16,7 +15,9 @@ export default defineConfig({
     outDir: "dist",
     emptyOutDir: true,
     rollupOptions: {
-      input: path.resolve(__dirname, "./client/index.html"),
+      input: {
+        main: path.resolve(__dirname, "./client/index.html"),
+      },
     },
   },
 });
