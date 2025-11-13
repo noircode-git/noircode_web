@@ -12,8 +12,8 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: ".",
-    emptyOutDir: false,
+    outDir: "build",
+    emptyOutDir: true,
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, "./client/index.html"),
