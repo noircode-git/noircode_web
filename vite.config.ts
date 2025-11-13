@@ -12,11 +12,16 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: "dist",
-    emptyOutDir: true,
+    outDir: ".",
+    emptyOutDir: false,
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, "./client/index.html"),
+      },
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+        },
       },
     },
   },
