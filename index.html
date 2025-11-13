@@ -1,217 +1,71 @@
-<!doctype html>
-<html lang="cs">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Projektový rozcestník (relativní odkazy)</title>
-  <style>
-    :root { color-scheme: light dark; }
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 2rem; line-height: 1.4; }
-    a { text-decoration: none; color: #2563eb; }
-    a:hover { text-decoration: underline; }
-    code { background: color-mix(in srgb, currentColor 10%, transparent); padding: .1rem .3rem; border-radius: .25rem; }
-    details { margin: .25rem 0 .25rem 0; }
-    summary { cursor: pointer; font-weight: 600; }
-    ul { list-style: none; padding-left: 1.25rem; margin: .25rem 0; }
-    .note { margin-bottom: 1rem; color: #555; }
-    .controls { margin: .5rem 0 1rem 0; display: flex; gap: .5rem; flex-wrap: wrap; }
-    button { padding: .4rem .7rem; border: 1px solid #ccc; border-radius: .4rem; background: #f6f6f6; cursor: pointer; }
-    button:hover { background: #eee; }
-    .file { margin: .1rem 0; }
-  </style>
-  <script>
-    function expandAll() {
-      document.querySelectorAll('details').forEach(d => d.open = true);
+<!DOCTYPE html>
+<html lang="cs" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>Noircode - Tvoříme software, který pracuje za vás</title>
+    <meta name="description" content="Noircode - profesionální vývoj webových stránek, webových aplikací a automatizace procesů v Praze. Moderní technologie, kvalitní kód, důraz na detail. Kontaktujte nás!" />
+    <meta name="keywords" content="webové stránky, webové aplikace, automatizace, formuláře, Praha, vývoj, programování, React, Node.js, TypeScript" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Noircode" />
+    <link rel="canonical" href="https://noircode.cz/" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://noircode.cz/" />
+    <meta property="og:title" content="Noircode - Tvoříme software, který pracuje za vás" />
+    <meta property="og:description" content="Profesionální vývoj webových stránek, aplikací a automatizace procesů. Moderní technologie, kvalitní kód, důraz na detail." />
+    <meta property="og:image" content="https://noircode.cz/assets/og-image.jpg" />
+    <meta property="og:locale" content="cs_CZ" />
+    <meta property="og:site_name" content="Noircode" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://noircode.cz/" />
+    <meta property="twitter:title" content="Noircode - Tvoříme software, který pracuje za vás" />
+    <meta property="twitter:description" content="Profesionální vývoj webových stránek, aplikací a automatizace procesů. Moderní technologie, kvalitní kód, důraz na detail." />
+    <meta property="twitter:image" content="https://noircode.cz/assets/og-image.jpg" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="./favicon.png" />
+    <link rel="apple-touch-icon" href="./favicon.png" />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Noircode",
+      "description": "Profesionální vývoj webových stránek, aplikací a automatizace procesů",
+      "url": "https://noircode.cz",
+      "telephone": "+420778008346",
+      "email": "info@noircode.cz",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Praha",
+        "addressCountry": "CZ"
+      },
+      "sameAs": [
+        "https://github.com/noircode",
+        "https://linkedin.com/company/noircode"
+      ],
+      "serviceType": [
+        "Webové stránky",
+        "Webové aplikace",
+        "Automatizace procesů",
+        "Registrační formuláře"
+      ]
     }
-    function collapseAll() {
-      document.querySelectorAll('details').forEach(d => d.open = false);
-    }
-    function filterList(q) {
-      const query = q.toLowerCase().trim();
-      const items = document.querySelectorAll('[data-path]');
-      let anyShown = false;
-      items.forEach(el => {
-        const match = el.dataset.path.includes(query);
-        el.style.display = (query && !match) ? 'none' : '';
-        if (el.style.display !== 'none') anyShown = true;
-      });
-      // Auto open parents when filtering
-      document.querySelectorAll('details').forEach(d => {
-        const hasVisible = Array.from(d.querySelectorAll('[data-path]')).some(x => x.style.display !== 'none');
-        d.open = query ? hasVisible : d.open;
-      });
-      document.getElementById('emptyState').style.display = (query && !anyShown) ? '' : 'none';
-    }
-  </script>
-</head>
-<body>
-  <h1>Projektový rozcestník</h1>
-  <p class="note">Všechny odkazy jsou relativní, takže budou fungovat na libovolném hostingu a na různých počítačích.</p>
-  <div class="controls">
-    <input type="search" placeholder="Filtrovat podle názvu souboru nebo cesty…" oninput="filterList(this.value)" style="flex:1; min-width: 220px; padding:.5rem; border:1px solid #ccc; border-radius:.4rem;">
-    <button type="button" onclick="expandAll()">Rozbalit vše</button>
-    <button type="button" onclick="collapseAll()">Sbalit vše</button>
-  </div>
-  <p id="emptyState" style="display:none;color:#777">Žádná položka nenalezena pro zadaný filtr.</p>
-  <h2>Kořenové soubory</h2>
-  <ul>
-    <li class="file" data-path=".replit"><a href="./.replit">.replit</a></li>
-    <li class="file" data-path="components.json"><a href="./components.json">components.json</a></li>
-    <li class="file" data-path="design_guidelines.md"><a href="./design_guidelines.md">design_guidelines.md</a></li>
-    <li class="file" data-path="drizzle.config.ts"><a href="./drizzle.config.ts">drizzle.config.ts</a></li>
-    <li class="file" data-path="package-lock.json"><a href="./package-lock.json">package-lock.json</a></li>
-    <li class="file" data-path="package.json"><a href="./package.json">package.json</a></li>
-    <li class="file" data-path="postcss.config.js"><a href="./postcss.config.js">postcss.config.js</a></li>
-    <li class="file" data-path="q"><a href="./q">q</a></li>
-    <li class="file" data-path="q.pub"><a href="./q.pub">q.pub</a></li>
-    <li class="file" data-path="tailwind.config.ts"><a href="./tailwind.config.ts">tailwind.config.ts</a></li>
-    <li class="file" data-path="tsconfig.json"><a href="./tsconfig.json">tsconfig.json</a></li>
-    <li class="file" data-path="vite.config.ts"><a href="./vite.config.ts">vite.config.ts</a></li>
-  </ul>
-  <h2>Složky</h2>
-  <details>
-    <summary>attached_assets/</summary>
-    <ul>
-      <li class="file" data-path="attached_assets/ddd.png"><a href="./attached_assets/ddd.png">ddd.png</a></li>
-      <li class="file" data-path="attached_assets/GJJ_JOBS_LOGO.png"><a href="./attached_assets/GJJ_JOBS_LOGO.png">GJJ_JOBS_LOGO.png</a></li>
-      <li class="file" data-path="attached_assets/heureka.jpg"><a href="./attached_assets/heureka.jpg">heureka.jpg</a></li>
-      <li class="file" data-path="attached_assets/image0_1761121323009.png"><a href="./attached_assets/image0_1761121323009.png">image0_1761121323009.png</a></li>
-      <li class="file" data-path="attached_assets/image0_black.png"><a href="./attached_assets/image0_black.png">image0_black.png</a></li>
-      <li class="file" data-path="attached_assets/image1_1761121310569.jpeg"><a href="./attached_assets/image1_1761121310569.jpeg">image1_1761121310569.jpeg</a></li>
-      <li class="file" data-path="attached_assets/image2_1761121323009.png"><a href="./attached_assets/image2_1761121323009.png">image2_1761121323009.png</a></li>
-      <details>
-        <summary>stock_images/</summary>
-        <ul>
-          <li class="file" data-path="attached_assets/stock_images/mobile_app_developme_5d0b2db9.jpg"><a href="./attached_assets/stock_images/mobile_app_developme_5d0b2db9.jpg">mobile_app_developme_5d0b2db9.jpg</a></li>
-          <li class="file" data-path="attached_assets/stock_images/mobile_app_developme_865bc70e.jpg"><a href="./attached_assets/stock_images/mobile_app_developme_865bc70e.jpg">mobile_app_developme_865bc70e.jpg</a></li>
-          <li class="file" data-path="attached_assets/stock_images/modern_web_design_da_8380accf.jpg"><a href="./attached_assets/stock_images/modern_web_design_da_8380accf.jpg">modern_web_design_da_8380accf.jpg</a></li>
-          <li class="file" data-path="attached_assets/stock_images/modern_web_design_da_e4b71a98.jpg"><a href="./attached_assets/stock_images/modern_web_design_da_e4b71a98.jpg">modern_web_design_da_e4b71a98.jpg</a></li>
-          <li class="file" data-path="attached_assets/stock_images/professional_develop_133eea55.jpg"><a href="./attached_assets/stock_images/professional_develop_133eea55.jpg">professional_develop_133eea55.jpg</a></li>
-          <li class="file" data-path="attached_assets/stock_images/professional_develop_1147f882.jpg"><a href="./attached_assets/stock_images/professional_develop_1147f882.jpg">professional_develop_1147f882.jpg</a></li>
-        </ul>
-      </details>
-    </ul>
-  </details>
-  <details>
-    <summary>client/</summary>
-    <ul>
-      <li class="file" data-path="client/index.html"><a href="./client/index.html">index.html</a></li>
-      <details>
-        <summary>public/</summary>
-        <ul>
-          <li class="file" data-path="client/public/favicon.png"><a href="./client/public/favicon.png">favicon.png</a></li>
-        </ul>
-      </details>
-      <details>
-        <summary>src/</summary>
-        <ul>
-          <li class="file" data-path="client/src/App.tsx"><a href="./client/src/App.tsx">App.tsx</a></li>
-          <li class="file" data-path="client/src/index.css"><a href="./client/src/index.css">index.css</a></li>
-          <li class="file" data-path="client/src/main.tsx"><a href="./client/src/main.tsx">main.tsx</a></li>
-          <li class="file" data-path="client/src/ui.tsx"><a href="./client/src/ui.tsx">ui.tsx</a></li>
-          <details>
-            <summary>components/</summary>
-            <ul>
-              <li class="file" data-path="client/src/components/theme-toggle.tsx"><a href="./client/src/components/theme-toggle.tsx">theme-toggle.tsx</a></li>
-              <details>
-                <summary>ui/</summary>
-                <ul>
-                  <li class="file" data-path="client/src/components/ui/accordion.tsx"><a href="./client/src/components/ui/accordion.tsx">accordion.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/alert-dialog.tsx"><a href="./client/src/components/ui/alert-dialog.tsx">alert-dialog.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/alert.tsx"><a href="./client/src/components/ui/alert.tsx">alert.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/aspect-ratio.tsx"><a href="./client/src/components/ui/aspect-ratio.tsx">aspect-ratio.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/avatar.tsx"><a href="./client/src/components/ui/avatar.tsx">avatar.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/badge.tsx"><a href="./client/src/components/ui/badge.tsx">badge.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/breadcrumb.tsx"><a href="./client/src/components/ui/breadcrumb.tsx">breadcrumb.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/button.tsx"><a href="./client/src/components/ui/button.tsx">button.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/calendar.tsx"><a href="./client/src/components/ui/calendar.tsx">calendar.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/card.tsx"><a href="./client/src/components/ui/card.tsx">card.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/carousel.tsx"><a href="./client/src/components/ui/carousel.tsx">carousel.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/chart.tsx"><a href="./client/src/components/ui/chart.tsx">chart.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/checkbox.tsx"><a href="./client/src/components/ui/checkbox.tsx">checkbox.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/collapsible.tsx"><a href="./client/src/components/ui/collapsible.tsx">collapsible.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/command.tsx"><a href="./client/src/components/ui/command.tsx">command.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/context-menu.tsx"><a href="./client/src/components/ui/context-menu.tsx">context-menu.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/dialog.tsx"><a href="./client/src/components/ui/dialog.tsx">dialog.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/drawer.tsx"><a href="./client/src/components/ui/drawer.tsx">drawer.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/dropdown-menu.tsx"><a href="./client/src/components/ui/dropdown-menu.tsx">dropdown-menu.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/form.tsx"><a href="./client/src/components/ui/form.tsx">form.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/hover-card.tsx"><a href="./client/src/components/ui/hover-card.tsx">hover-card.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/input-otp.tsx"><a href="./client/src/components/ui/input-otp.tsx">input-otp.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/input.tsx"><a href="./client/src/components/ui/input.tsx">input.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/label.tsx"><a href="./client/src/components/ui/label.tsx">label.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/menubar.tsx"><a href="./client/src/components/ui/menubar.tsx">menubar.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/navigation-menu.tsx"><a href="./client/src/components/ui/navigation-menu.tsx">navigation-menu.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/pagination.tsx"><a href="./client/src/components/ui/pagination.tsx">pagination.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/popover.tsx"><a href="./client/src/components/ui/popover.tsx">popover.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/progress.tsx"><a href="./client/src/components/ui/progress.tsx">progress.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/radio-group.tsx"><a href="./client/src/components/ui/radio-group.tsx">radio-group.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/resizable.tsx"><a href="./client/src/components/ui/resizable.tsx">resizable.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/scroll-area.tsx"><a href="./client/src/components/ui/scroll-area.tsx">scroll-area.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/select.tsx"><a href="./client/src/components/ui/select.tsx">select.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/separator.tsx"><a href="./client/src/components/ui/separator.tsx">separator.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/sheet.tsx"><a href="./client/src/components/ui/sheet.tsx">sheet.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/sidebar.tsx"><a href="./client/src/components/ui/sidebar.tsx">sidebar.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/skeleton.tsx"><a href="./client/src/components/ui/skeleton.tsx">skeleton.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/slider.tsx"><a href="./client/src/components/ui/slider.tsx">slider.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/switch.tsx"><a href="./client/src/components/ui/switch.tsx">switch.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/table.tsx"><a href="./client/src/components/ui/table.tsx">table.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/tabs.tsx"><a href="./client/src/components/ui/tabs.tsx">tabs.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/textarea.tsx"><a href="./client/src/components/ui/textarea.tsx">textarea.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/toast.tsx"><a href="./client/src/components/ui/toast.tsx">toast.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/toaster.tsx"><a href="./client/src/components/ui/toaster.tsx">toaster.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/toggle-group.tsx"><a href="./client/src/components/ui/toggle-group.tsx">toggle-group.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/toggle.tsx"><a href="./client/src/components/ui/toggle.tsx">toggle.tsx</a></li>
-                  <li class="file" data-path="client/src/components/ui/tooltip.tsx"><a href="./client/src/components/ui/tooltip.tsx">tooltip.tsx</a></li>
-                </ul>
-              </details>
-              <details>
-                <summary>hooks/</summary>
-                <ul>
-                  <li class="file" data-path="client/src/hooks/use-mobile.tsx"><a href="./client/src/hooks/use-mobile.tsx">use-mobile.tsx</a></li>
-                  <li class="file" data-path="client/src/hooks/use-toast.ts"><a href="./client/src/hooks/use-toast.ts">use-toast.ts</a></li>
-                </ul>
-              </details>
-              <details>
-                <summary>lib/</summary>
-                <ul>
-                  <li class="file" data-path="client/src/lib/queryClient.ts"><a href="./client/src/lib/queryClient.ts">queryClient.ts</a></li>
-                  <li class="file" data-path="client/src/lib/theme-context.tsx"><a href="./client/src/lib/theme-context.tsx">theme-context.tsx</a></li>
-                  <li class="file" data-path="client/src/lib/utils.ts"><a href="./client/src/lib/utils.ts">utils.ts</a></li>
-                </ul>
-              </details>
-              <details>
-                <summary>pages/</summary>
-                <ul>
-                  <li class="file" data-path="client/src/pages/automation.tsx"><a href="./client/src/pages/automation.tsx">automation.tsx</a></li>
-                  <li class="file" data-path="client/src/pages/forms.tsx"><a href="./client/src/pages/forms.tsx">forms.tsx</a></li>
-                  <li class="file" data-path="client/src/pages/home.tsx"><a href="./client/src/pages/home.tsx">home.tsx</a></li>
-                  <li class="file" data-path="client/src/pages/not-found.tsx"><a href="./client/src/pages/not-found.tsx">not-found.tsx</a></li>
-                  <li class="file" data-path="client/src/pages/web-apps.tsx"><a href="./client/src/pages/web-apps.tsx">web-apps.tsx</a></li>
-                  <li class="file" data-path="client/src/pages/web-pages.tsx"><a href="./client/src/pages/web-pages.tsx">web-pages.tsx</a></li>
-                </ul>
-              </details>
-            </ul>
-          </details>
-        </ul>
-      </details>
-  <details>
-    <summary>server/</summary>
-    <ul>
-      <li class="file" data-path="server/index.ts"><a href="./server/index.ts">index.ts</a></li>
-      <li class="file" data-path="server/routes.ts"><a href="./server/routes.ts">routes.ts</a></li>
-      <li class="file" data-path="server/storage.ts"><a href="./server/storage.ts">storage.ts</a></li>
-      <li class="file" data-path="server/vite.ts"><a href="./server/vite.ts">vite.ts</a></li>
-    </ul>
-  </details>
-  <details>
-    <summary>shared/</summary>
-    <ul>
-      <li class="file" data-path="shared/schema.ts"><a href="./shared/schema.ts">schema.ts</a></li>
-    </ul>
-  </details>
-  <footer style="margin-top:2rem;color:#777">
-    Vygenerováno staticky pro aktuální strukturu projektu.
-  </footer>
-</body>
+    </script>
+    <script type="module" crossorigin src="/assets/main-dIP-QfIS.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/main-CAkHxpLt.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
 </html>
