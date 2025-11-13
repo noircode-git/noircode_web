@@ -15,15 +15,15 @@ import { useRef, useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useTheme } from "@/lib/theme-context";
-import logoLight from "@assets/image2_1761121323009.png";
-import logoIcon from "@assets/image0_1761121323009.png";
-import logoBlack from "@assets/image0_black.png";
-import webDesign1 from "@assets/stock_images/modern_web_design_da_e4b71a98.jpg";
-import webDesign2 from "@assets/stock_images/modern_web_design_da_8380accf.jpg";
-import devWorkspace1 from "@assets/stock_images/professional_develop_1147f882.jpg";
-import devWorkspace2 from "@assets/stock_images/professional_develop_133eea55.jpg";
-import mobileApp1 from "@assets/stock_images/mobile_app_developme_865bc70e.jpg";
-import mobileApp2 from "@assets/stock_images/mobile_app_developme_5d0b2db9.jpg";
+import logoLight from "../../attached_assets/image2_1761121323009.png";
+import logoIcon from "../../attached_assets/image0_1761121323009.png";
+import logoBlack from "../../attached_assets/image0_black.png";
+import webDesign1 from "../../attached_assets/stock_images/modern_web_design_da_e4b71a98.jpg";
+import webDesign2 from "../../attached_assets/stock_images/modern_web_design_da_8380accf.jpg";
+import devWorkspace1 from "../../attached_assets/stock_images/professional_develop_1147f882.jpg";
+import devWorkspace2 from "../../attached_assets/stock_images/professional_develop_133eea55.jpg";
+import mobileApp1 from "../../attached_assets/stock_images/mobile_app_developme_865bc70e.jpg";
+import mobileApp2 from "../../attached_assets/stock_images/mobile_app_developme_5d0b2db9.jpg";
 
 // 3D Laptop Component
 function Laptop3D() {
