@@ -15,15 +15,6 @@ import { useRef, useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useTheme } from "@/lib/theme-context";
-import logoLight from "../../attached_assets/image2_1761121323009.png";
-import logoIcon from "../../attached_assets/image0_1761121323009.png";
-import logoBlack from "../../attached_assets/image0_black.png";
-import webDesign1 from "../../attached_assets/stock_images/modern_web_design_da_e4b71a98.jpg";
-import webDesign2 from "../../attached_assets/stock_images/modern_web_design_da_8380accf.jpg";
-import devWorkspace1 from "../../attached_assets/stock_images/professional_develop_1147f882.jpg";
-import devWorkspace2 from "../../attached_assets/stock_images/professional_develop_133eea55.jpg";
-import mobileApp1 from "../../attached_assets/stock_images/mobile_app_developme_865bc70e.jpg";
-import mobileApp2 from "../../attached_assets/stock_images/mobile_app_developme_5d0b2db9.jpg";
 
 // 3D Laptop Component
 function Laptop3D() {
@@ -299,7 +290,7 @@ export default function Home() {
               <div className="relative inline-block">
                 <div className="absolute inset-0 dark:bg-gradient-to-r dark:from-[hsl(265,85%,65%)]/20 dark:to-[hsl(250,75%,70%)]/20 light:bg-gradient-to-r light:from-gray-200/30 light:to-gray-300/30 blur-2xl" />
                 <img
-                  src={theme === 'light' ? logoBlack : logoIcon}
+                  src={theme === 'light' ? "static/images/image0_black.png" : "static/images/image0_1761121323009.png"}
                   alt="Noircode"
                   className="h-20 md:h-24 relative dark:brightness-100"
                   data-testid="img-logo-hero"
@@ -593,37 +584,37 @@ export default function Home() {
               {
                 title: "REF. 1",
                 tech: "React, Node.js, PostgreSQL",
-                image: webDesign1,
+                image: "static/images/modern_web_design_da_e4b71a98.jpg",
                 delay: 0,
               },
               {
                 title: "REF. 2",
                 tech: "TypeScript, Express, MongoDB",
-                image: webDesign2,
+                image: "static/images/modern_web_design_da_8380accf.jpg",
                 delay: 0.1,
               },
               {
                 title: "REF. 3",
                 tech: "Python, FastAPI, Redis",
-                image: devWorkspace1,
+                image: "static/images/professional_develop_1147f882.jpg",
                 delay: 0.2,
               },
               {
                 title: "REF. 4",
                 tech: "Next.js, Tailwind, Vercel",
-                image: mobileApp1,
+                image: "static/images/mobile_app_developme_865bc70e.jpg",
                 delay: 0.3,
               },
               {
                 title: "REF. 5",
                 tech: "React, Stripe, AWS",
-                image: devWorkspace2,
+                image: "static/images/professional_develop_133eea55.jpg",
                 delay: 0.4,
               },
               {
                 title: "REF. 6",
                 tech: "React Native, Firebase",
-                image: mobileApp2,
+                image: "static/images/mobile_app_developme_5d0b2db9.jpg",
                 delay: 0.5,
               },
             ].map((project, index) => (
@@ -821,7 +812,7 @@ export default function Home() {
             {/* Logo */}
             <div className="flex justify-center md:justify-start">
               <img
-                src={theme === 'light' ? logoBlack : logoIcon}
+                src={theme === 'light' ? "static/images/image0_black.png" : "static/images/image0_1761121323009.png"}
                 alt="Noircode"
                 className="h-12 dark:brightness-100"
                 data-testid="img-logo-footer"
