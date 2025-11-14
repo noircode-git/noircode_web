@@ -3,6 +3,7 @@ import { DollarSign, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 
+
 export default function Cenik() {
   const [, setLocation] = useLocation();
 
