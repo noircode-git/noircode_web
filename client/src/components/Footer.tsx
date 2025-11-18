@@ -43,6 +43,7 @@ export default function Footer() {
               <h3 className="font-bold text-lg text-foreground mb-3">Noircode</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 Profesionální vývoj webových stránek, aplikací a automatizace procesů.
+                
                 Moderní technologie, kvalitní kód, důraz na detail.
               </p>
             </div>
