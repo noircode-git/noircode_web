@@ -1,0 +1,68 @@
+# Noircode - Optimal SEO Robots.txt
+# Generated on: 2025-11-12
+
+# Allow all search engines to crawl the entire site
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://noircode.cz/sitemap.xml
+
+# Crawl-delay for general crawling (optional, but can help with server load)
+Crawl-delay: 1
+
+# Allow access to CSS and JS files for better indexing
+User-agent: *
+Allow: /*.css$
+Allow: /*.js$
+
+# Allow images and assets
+User-agent: *
+Allow: /assets/
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /*.webp$
+Allow: /*.ico$
+
+# Block access to admin or private areas (if any in future)
+# User-agent: *
+# Disallow: /admin/
+# Disallow: /api/private/
+
+# Specific rules for major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+# Block aggressive crawlers that can overload servers
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Crawl-delay: 10
+
+# Notes for webmasters:
+# - This robots.txt allows full site access for SEO purposes
+# - All important pages are included in sitemap.xml
+# - Noindex directives should be handled via HTML meta tags, not robots.txt
+# - For performance, consider using Google Search Console to monitor crawl errors
