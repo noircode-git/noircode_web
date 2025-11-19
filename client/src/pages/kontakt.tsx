@@ -10,7 +10,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { insertContactMessageSchema, type InsertContactMessage } from "@shared/schema";
-import { apiRequest } from "@/lib/queryClient";
 import { useState } from "react";
 
 export default function Kontakt() {
@@ -34,10 +33,7 @@ export default function Kontakt() {
 
   const contactMutation = useMutation({
     mutationFn: async (data: InsertContactMessage) => {
-      // First save to backend (note: on Vercel static deploy this may be rewritten to index.html)
-      const result = await apiRequest('POST', '/api/contact', data);
-
-      // Then send email via EmailJS from client side
+      // Send email via EmailJS from client side (no backend on GitHub Pages)
       const emailData = {
         service_id: EMAILJS_SERVICE_ID,
         template_id: EMAILJS_TEMPLATE_ID,
@@ -50,26 +46,22 @@ export default function Kontakt() {
         }
       };
 
-      try {
-        const emailResponse = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(emailData),
-          mode: 'cors',
-        });
+      const emailResponse = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(emailData),
+        mode: 'cors',
+      });
 
-        const bodyText = await emailResponse.text().catch(() => '');
+      const bodyText = await emailResponse.text().catch(() => '');
 
-        if (!emailResponse.ok) {
-          console.warn(`EmailJS send failed. status=${emailResponse.status}, body=${bodyText}. If status is 403/405, add ${window.location.origin} to EmailJS Allowed Origins and verify your public key/service/template.`);
-        }
-      } catch (err: any) {
-        console.error('EmailJS network/CORS error:', err?.message || err);
+      if (!emailResponse.ok) {
+        throw new Error(`EmailJS send failed. status=${emailResponse.status}, body=${bodyText}. If status is 403/405, add ${window.location.origin} to EmailJS Allowed Origins and verify your public key/service/template.`);
       }
 
-      return result;
+      return { success: true, message: bodyText };
     },
     onSuccess: () => {
       setSubmitSuccess(true);
