@@ -30,16 +30,16 @@ import PodminkyUziti from "@/pages/podminky-uziti";
 function Router() {
   // Handle GitHub Pages SPA redirect
   useEffect(() => {
+    // Check if we have a GitHub Pages redirect (/?/path format)
     const url = window.location.href;
-    const hasQueryParam = url.includes('?/');
+    const hasRedirect = url.includes('?/');
 
-    if (hasQueryParam) {
+    if (hasRedirect) {
       const path = url.split('?/')[1].split('&')[0];
-      const search = url.split('&').slice(1).join('&');
       const cleanPath = path.replace(/~and~/g, '&');
 
-      // Replace the URL without the query parameter
-      window.history.replaceState(null, '', `/${cleanPath}${search ? `?${search.replace(/~and~/g, '&')}` : ''}`);
+      // Replace the URL with the clean path
+      window.history.replaceState(null, '', `/${cleanPath}`);
     }
   }, []);
 
