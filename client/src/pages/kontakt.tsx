@@ -33,7 +33,7 @@ export default function Kontakt() {
 
   const contactMutation = useMutation({
     mutationFn: async (data: InsertContactMessage) => {
-      // Send email via EmailJS from client side (no backend on GitHub Pages)
+      // Send email via EmailJS from client side (no backend on GitHub Pages) - updated
       const emailData = {
         service_id: EMAILJS_SERVICE_ID,
         template_id: EMAILJS_TEMPLATE_ID,
