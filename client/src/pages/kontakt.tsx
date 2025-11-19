@@ -58,7 +58,7 @@ export default function Kontakt() {
       const bodyText = await emailResponse.text().catch(() => '');
 
       if (!emailResponse.ok) {
-        throw new Error(`EmailJS send failed. status=${emailResponse.status}, body=${bodyText}. If status is 403/405, add ${window.location.origin} to EmailJS Allowed Origins and verify your public key/service/template.`);
+        throw new Error(`EmailJS send failed. status=${emailResponse.status}, body=${bodyText}. If status is 403/405, add 'https://noircode.cz' to EmailJS Allowed Origins and verify your public key/service/template.`);
       }
 
       return { success: true, message: bodyText };
